@@ -1,23 +1,28 @@
 #include <stdio.h>
 #include "statemachine.h"
 
+enum StateID{
+    STATE_ID_0,
+    STATE_ID_1,
+    STATE_ID_2,
+};
 void stateMachineHandler(int currentStateId, const SM_LoopInfo* loopInfo)
 {
     switch(currentStateId)
     {
-        case 0:
+        case STATE_ID_0:
         {
-            printf(" %d (%d)\n", currentStateId, loopInfo->stateTimeElapsedMs);
+            printf("State ID:%d (%d ms)\n", currentStateId, loopInfo->stateTimeElapsedMs);
             break;
         }
-        case 1:
+        case STATE_ID_1:
         {
-            printf(" %d (%d)\n", currentStateId, loopInfo->stateTimeElapsedMs);
+            printf("State ID:%d (%d ms)\n", currentStateId, loopInfo->stateTimeElapsedMs);
             break;
         }
-        case 2:
+        case STATE_ID_2:
         {
-            printf(" %d (%d)\n", currentStateId, loopInfo->stateTimeElapsedMs);
+            printf("State ID:%d (%d ms)\n", currentStateId, loopInfo->stateTimeElapsedMs);
             break;
         }
         default:
@@ -32,7 +37,6 @@ int main()
     SM_Transition transitionList[] = {
             {"0to1", 0, 1},
             {"1to2", 1, 2},
-            {"2to3", 2, 3},
     };
     SM_StateMachine stateMachine;
     SM_StateMachine_init(&stateMachine, &stateMachineHandler, 0, transitionList, 3);

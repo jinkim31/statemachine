@@ -22,7 +22,7 @@ void SM_StateMachine_reset(SM_StateMachine *stateMachine)
     SM_LoopInfo_reset(&stateMachine->loopInfo);
 }
 
-void SM_StateMachine_notifyEvent(SM_StateMachine *stateMachine, char *eventName)
+bool SM_StateMachine_notifyEvent(SM_StateMachine *stateMachine, char *eventName)
 {
     // find transition that matches src state id, event name
     SM_Transition* transition;
@@ -39,13 +39,15 @@ void SM_StateMachine_notifyEvent(SM_StateMachine *stateMachine, char *eventName)
 
     // no transition found. return
     if(i == stateMachine->nTransitions)
-        return;
+        return false;
 
     // update loopInfo
     stateMachine->loopInfo.stateTimeElapsedMs = 0;
 
     // transition to dst state
     stateMachine->currentStateId = transition->dstId;
+
+    return true;
 }
 
 void SM_StateMachine_spin(SM_StateMachine *stateMachine, int timeDeltaMs)
