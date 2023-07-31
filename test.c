@@ -35,11 +35,11 @@ void stateMachineHandler(int currentStateId, const SM_LoopInfo* loopInfo)
 int main()
 {
     SM_Transition transitionList[] = {
-            {"0to1", 0, 1},
-            {"1to2", 1, 2},
+            {"0to1", STATE_ID_0, STATE_ID_1},
+            {"1to2", STATE_ID_1, STATE_ID_2},
     };
     SM_StateMachine stateMachine;
-    SM_StateMachine_init(&stateMachine, &stateMachineHandler, 0, transitionList, 3);
+    SM_StateMachine_init(&stateMachine, &stateMachineHandler, 0, transitionList, SM_ARRAY_LEN(transitionList));
 
     SM_StateMachine_spin(&stateMachine, 1);
     SM_StateMachine_spin(&stateMachine, 1);

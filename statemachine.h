@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define SM_ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+
 typedef struct SM_Transition{
     char* eventName;
     int srcId;
