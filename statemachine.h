@@ -2,16 +2,20 @@
 #include <stdbool.h>
 
 #define SM_ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+#define SM_ANY_STATE -1
+
+typedef struct SM_LoopInfo{
+    unsigned int stateTimeElapsedMs;
+}SM_LoopInfo;
+
+typedef void (*SM_TransitionCallbackPtr)(int srcStateId, int dstStateId, const SM_LoopInfo* loopInfo);
 
 typedef struct SM_Transition{
     char* eventName;
     int srcId;
     int dstId;
+    SM_TransitionCallbackPtr callback;
 }SM_Transition;
-
-typedef struct SM_LoopInfo{
-    unsigned int stateTimeElapsedMs;
-}SM_LoopInfo;
 
 void SM_LoopInfo_reset(SM_LoopInfo* loopInfo);
 

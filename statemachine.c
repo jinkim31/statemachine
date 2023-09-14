@@ -30,7 +30,9 @@ bool SM_StateMachine_notifyEvent(SM_StateMachine *stateMachine, char *eventName)
     for(i=0; i<stateMachine->nTransitions; i++)
     {
         SM_Transition* iterTransition = &stateMachine->transitionList[i];
-        if(iterTransition->srcId==stateMachine->currentStateId && strcmp(eventName, iterTransition->eventName)==0)
+        if(
+        		(iterTransition->srcId==stateMachine->currentStateId || iterTransition->srcId==SM_ANY_STATE) &&
+						strcmp(eventName, iterTransition->eventName)==0)
         {
             transition = iterTransition;
             break;
@@ -40,6 +42,10 @@ bool SM_StateMachine_notifyEvent(SM_StateMachine *stateMachine, char *eventName)
     // no transition found. return
     if(i == stateMachine->nTransitions)
         return false;
+
+    // call transition callback
+    if(transition->callback)
+    	transition->callback(stateMachine->currentStateId, transition->dstId, &stateMachine->loopInfo);
 
     // update loopInfo
     stateMachine->loopInfo.stateTimeElapsedMs = 0;
